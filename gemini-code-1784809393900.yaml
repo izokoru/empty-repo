@@ -1,0 +1,38 @@
+rules:
+  - id: claude-code-wildcard-allow
+    languages: [json]
+    severity: ERROR
+    message: >-
+      Autorisation globale détectée ('*'). 
+      Cela permet à Claude Code d'exécuter n'importe quelle commande sans confirmation.
+    patterns:
+      - pattern: '"allow": [..., "*", ...]'
+
+  - id: claude-code-risky-command-allow
+    languages: [json]
+    severity: WARNING
+    message: >-
+      Une commande potentiellement dangereuse est présente dans la liste d'autorisations automatiques.
+    patterns:
+      - pattern-either:
+          - pattern: '"allow": [..., "rm -rf*", ...]'
+          - pattern: '"allow": [..., "curl*", ...]'
+          - pattern: '"allow": [..., "wget*", ...]'
+          - pattern: '"allow": [..., "sudo*", ...]'
+          - pattern: '"allow": [..., "chmod*", ...]'
+
+  - id: claude-code-unencrypted-http-mcp
+    languages: [json]
+    severity: ERROR
+    message: >-
+      Serveur MCP configuré avec un protocole non sécurisé (HTTP). Utilisez HTTPS pour éviter l'interception.
+    patterns:
+      - pattern: '"url": "http://$URL"'
+
+  - id: claude-code-hardcoded-secret
+    languages: [json]
+    severity: ERROR
+    message: >-
+      Clé d'API ou secret en clair détecté dans la configuration. Utilisez des variables d'environnement.
+    patterns:
+      - pattern-regex: 'sk-ant-api[0-9a-zA-Z_-]{20,}'
