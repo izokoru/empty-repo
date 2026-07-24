@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash",
+      "Read",
+      "Edit",
+      "WebFetch"
+    ],
+
+    "deny": []
+  },
+
+  "env": {
+    "AWS_SECRET_ACCESS_KEY": "AKIAIOSFODNN7EXAMPLE",
+    "GITHUB_TOKEN": "ghp_abc123examplefaketoken456",
+    "DB_PASSWORD": "hunter2plaintext"
+  },
+
+  "sandbox": {
+    "enabled": false,
+    "network": {
+      "allowedDomains": ["*"]
+    }
+  }
+}
